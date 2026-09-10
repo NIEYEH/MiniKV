@@ -3,28 +3,27 @@
 
 int main()
 {
-    KVStore store;
+    KVStore store(2);
 
-    store.set(
-        "name",
-        "Alice"
-    );
-    // v 0.1.0
-    // std::cout << store.get("name") << std::endl;
+    std::cout
+        << store.set("name","Alice")
+        << std::endl;
 
-    // store.del("name");
 
-    // std::cout << store.exists("name") << std::endl;
-    auto result = store.get("age");
+    std::cout
+        << store.set("age","24")
+        << std::endl;
 
-    if(result.has_value())
-    {
-        std::cout << result.value() << std::endl;
-    }
-    else
-    {
-        std::cout << "not found" << std::endl;
-    }
+
+    std::cout
+        << store.set("city","Shanghai")
+        << std::endl;
+
+
+    std::cout
+        << store.size()
+        << std::endl;
+
 
     return 0;
 }

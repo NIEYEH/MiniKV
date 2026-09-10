@@ -15,7 +15,7 @@ public:
     KVStore(size_t capacity);
     // 这里用&是因为如果不用的话调用set会发生字符串复制，性能更好
     // const表示这个函数不能修改
-    void set(
+    bool set(
         const std::string& key,
         const std::string& value
     );
