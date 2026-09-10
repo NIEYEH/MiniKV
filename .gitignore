@@ -1,0 +1,8 @@
+# executable
+main
+
+# object files
+*.o
+
+# cmake
+build/
