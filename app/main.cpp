@@ -1,59 +1,30 @@
+#include "ThreadPool.h"
+
 #include <iostream>
-
-
-#include "KVStore.h"
-
-#include "CommandParser.h"
-
-#include "CommandFactory.h"
-
 
 
 int main()
 {
 
-    KVStore store(100);
+    ThreadPool pool(4);
 
 
-    CommandParser parser;
-
-
-
-    std::string input;
-
-
-    while(std::getline(std::cin,input))
+    for(int i=0;i<10;i++)
     {
 
+        pool.submit(
 
-        auto parsed =
-            parser.parse(input);
+            [i]()
+            {
 
+                std::cout
+                    <<"task "
+                    <<i
+                    <<std::endl;
 
+            }
 
-        auto command =
-            CommandFactory::create(parsed);
-
-
-
-        if(command)
-        {
-
-            std::cout
-                << command->execute(store)
-                << std::endl;
-
-        }
-
-        else
-        {
-
-            std::cout
-                << "Unknown command"
-                << std::endl;
-
-        }
-
+        );
 
     }
 

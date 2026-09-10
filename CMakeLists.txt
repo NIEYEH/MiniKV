@@ -27,3 +27,11 @@ add_executable(
     app/main.cpp
     ${SRC_FILES}
 )
+
+find_package(Threads REQUIRED)
+
+
+target_link_libraries(
+    minikv
+    Threads::Threads
+)
