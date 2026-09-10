@@ -3,7 +3,7 @@
 #include "Command.h"
 
 
-class GetCommand : public Command
+class DelCommand : public Command
 {
 
 private:
@@ -13,7 +13,7 @@ private:
 
 public:
 
-    GetCommand(
+    DelCommand(
         std::string key
     );
 

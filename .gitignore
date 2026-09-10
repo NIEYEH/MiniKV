@@ -1,13 +1,11 @@
 # build directory
 build/
 
-# executable
-app
-
-# object files
+# executable files
 *.o
+*.out
 
-# cmake
+# cmake generated files
 CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake

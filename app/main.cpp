@@ -1,32 +1,63 @@
 #include <iostream>
+
+
 #include "KVStore.h"
-#include "Buffer.h"
-#include <utility>
-#include "SetCommand.h"
+
+#include "CommandParser.h"
+
+#include "CommandFactory.h"
+
+
 
 int main()
 {
-    KVStore store(10);
+
+    KVStore store(100);
 
 
-    SetCommand cmd(
-        "name",
-        "Alice"
-    );
+    CommandParser parser;
 
 
-    std::cout
-        << cmd.execute(store)
-        << std::endl;
+
+    std::string input;
 
 
-    auto value=store.get("name");
-
-
-    if(value)
+    while(std::getline(std::cin,input))
     {
-        std::cout
-            << *value
-            << std::endl;
+
+
+        auto parsed =
+            parser.parse(input);
+
+
+
+        auto command =
+            CommandFactory::create(parsed);
+
+
+
+        if(command)
+        {
+
+            std::cout
+                << command->execute(store)
+                << std::endl;
+
+        }
+
+        else
+        {
+
+            std::cout
+                << "Unknown command"
+                << std::endl;
+
+        }
+
+
     }
+
+
+    return 0;
+
 }
