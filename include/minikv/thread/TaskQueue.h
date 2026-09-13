@@ -13,20 +13,19 @@ private:
     // 这里的队列去容纳多种函数统一包装，比如void func()，lambda表达式，std::bind绑定的函数等
     std::queue<std::function<void()>> tasks_;
 
-
     std::mutex mutex_;
-
 
     std::condition_variable cond_;
 
+    bool closed_ = false;
 
 public:
-
-    void push(
+    bool push(
         std::function<void()> task
     );
 
-
-    std::function<void()> pop();
-
+    bool pop(
+        std::function<void()>& task
+    );
+    void shutdown();
 };

@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 
-#include "CommandType.h"
+#include "minikv/command/CommandType.h"
 
 
 struct ParsedCommand

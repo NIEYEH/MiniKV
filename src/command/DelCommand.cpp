@@ -1,6 +1,6 @@
-#include "DelCommand.h"
+#include "minikv/command/DelCommand.h"
 
-#include "KVStore.h"
+#include "minikv/core/KVStore.h"
 
 
 

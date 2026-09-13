@@ -1,37 +1,43 @@
-cmake_minimum_required(VERSION 3.10)
-
+cmake_minimum_required(VERSION 3.16)
 
 project(MiniKV)
 
-
-# 设置C++标准
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+find_package(Threads REQUIRED)
 
-# 头文件目录
-include_directories(
-    ${PROJECT_SOURCE_DIR}/include
+file(
+    GLOB_RECURSE
+    SRC_FILES
+    CONFIGURE_DEPENDS
+    "${PROJECT_SOURCE_DIR}/src/*.cpp"
 )
 
-
-# 收集src目录下所有cpp文件
-file(GLOB SRC_FILES
-    ${PROJECT_SOURCE_DIR}/src/*.cpp
-)
-
-
-# 创建可执行文件
-add_executable(
-    minikv
-    app/main.cpp
+add_library(
+    minikv_core
     ${SRC_FILES}
 )
 
-find_package(Threads REQUIRED)
+target_include_directories(
+    minikv_core
+    PUBLIC
+    ${PROJECT_SOURCE_DIR}/include
+)
 
+target_link_libraries(
+    minikv_core
+    PUBLIC
+    Threads::Threads
+)
+
+add_executable(
+    minikv
+    app/main.cpp
+)
 
 target_link_libraries(
     minikv
-    Threads::Threads
+    PRIVATE
+    minikv_core
 )

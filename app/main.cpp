@@ -1,34 +1,13 @@
-#include "ThreadPool.h"
-
-#include <iostream>
-
+#include "minikv/server/Server.h"
 
 int main()
 {
+    Server server(
+        100,
+        4
+    );
 
-    ThreadPool pool(4);
-
-
-    for(int i=0;i<10;i++)
-    {
-
-        pool.submit(
-
-            [i]()
-            {
-
-                std::cout
-                    <<"task "
-                    <<i
-                    <<std::endl;
-
-            }
-
-        );
-
-    }
-
+    server.run();
 
     return 0;
-
 }

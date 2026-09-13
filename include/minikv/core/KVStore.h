@@ -2,6 +2,9 @@
 
 #include <unordered_map>
 #include <string>
+#include <optional>
+#include <shared_mutex>
+#include <cstddef>
 
 class KVStore 
 {
@@ -11,18 +14,18 @@ private:
     std::unordered_map<std::string, std::string> data_;
     size_t capacity_;
 
+    // const成员函数也需要加锁，所以必须mutable
+    mutable std::shared_mutex mutex_;
+
 public:
-    KVStore(size_t capacity);
+    explicit KVStore(std::size_t capacity);
     // 这里用&是因为如果不用的话调用set会发生字符串复制，性能更好
     // const表示这个函数不能修改
     bool set(
         const std::string& key,
         const std::string& value
     );
-    // v0.1.0
-    // std::string get(
-    //     const std::string& key
-    // );
+
     std::optional<std::string> get(
         const std::string& key
     ) const;
