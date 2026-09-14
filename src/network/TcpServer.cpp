@@ -263,6 +263,8 @@ void TcpServer::run()
     address.sin_port = htons(port_);
 
     if (
+        // 把这个socket绑定到本机的某个IP+端口
+        // 因为历史原因需要把这个地址按照sockeaddr*传过去
         ::bind(
             listen_socket_.fd(),
             reinterpret_cast<sockaddr*>(
@@ -282,7 +284,7 @@ void TcpServer::run()
     if (
         ::listen(
             listen_socket_.fd(),
-            SOMAXCONN
+            SOMAXCONN // 使用系统允许的较大连接等待队列上限
         ) < 0
     )
     {
@@ -299,7 +301,7 @@ void TcpServer::run()
         << port_
         << std::endl;
 
-
+    // 服务器开始无限循环
     while (true)
     {
         sockaddr_in client_address{};
@@ -334,10 +336,9 @@ void TcpServer::run()
         }
 
 
-        char ip[
-            INET_ADDRSTRLEN
-        ]{};
+        char ip[INET_ADDRSTRLEN]{};
 
+        // 把client_address.sin_addr内部的二进制网络地址转换成人能看懂的文本
         ::inet_ntop(
             AF_INET,
             &client_address.sin_addr,
@@ -357,6 +358,7 @@ void TcpServer::run()
 
 
         try
+        // 不让主线程自己处理客户端，而是把客户端交给线程池
         {
             pool_.submit(
                 [
